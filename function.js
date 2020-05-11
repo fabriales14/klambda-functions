@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
 });
  console.log(connection);
  //connection.end();
-    connection.query('show tables', function (error, results, fields) {
+    connection.query('select * from person', function (error, results, fields) {
         if (error) {
             console.log("error")
             connection.destroy();

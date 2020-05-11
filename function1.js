@@ -1,15 +1,18 @@
 var mysql = require('mysql');
 var config = require('./config.json');
 
+var query_str;
+
 var connection = mysql.createConnection({
-    host: config.host,
-    user: config.user,
-    password: config.password,
-    database: config.db
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.db
 });
 
-exports.handler = (event, context, callback) => { 
-    connection.query('show tables', function (error, results, fields) {
+exports.handler = (event, context, callback) => {
+    query_str = "CALL " + event.spName + "(?,?,?);";
+    connection.query(query_str, event.input, function (error, results, fields) {
         if (error) {
             console.log("error")
             connection.destroy();
