@@ -7,8 +7,7 @@ var connection = mysql.createConnection({
     password: config.password,
     database: config.db
 });
- console.log(connection);
- //connection.end();
+
     connection.query('select * from person', function (error, results, fields) {
         if (error) {
             console.log("error")
