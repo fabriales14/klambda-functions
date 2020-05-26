@@ -9,22 +9,26 @@ var connection = mysql.createConnection({
 });
 
 exports.handler = (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false; // never waits for connection to be closed, so it can be reused
     query_str = "CALL " + process.env.spName + "(?,?);";
+    let body = JSON.parse(event.body);
     connection.query(query_str, 
-        [event.body.name, event.body.lastName], 
+        [body.name, body.lastName], 
         function (error, results, fields) {
         if (error) {
             console.log("error");
             connection.destroy();
-            throw error;
+            var response = {
+                statusCode: 400,
+                body: JSON.stringify("Error adding on database")
+            };
+            callback(null, response);
         } else {
-            // connected!
-            console.log(results);
-            callback(null, results);
-            //connection.end(function (err) { callback(err, results);});
-            }
-        });
+            var response = {
+                statusCode: 200,
+                body: JSON.stringify("Customer added succesfully")
+            };
+            callback(null, response);
+        }
+    });
 }
-
-
-

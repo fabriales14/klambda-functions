@@ -1,25 +1,25 @@
 var AWS = require('aws-sdk');
-var lambda = new AWS.Lambda();
+var lambda = new AWS.Lambda({
+    region: 'us-west-1'
+});
 var lambdachain = process.env.listLambdas.split(' ');
 var output;
 
-function invokeLambda(pName, pInput) {
-    lambda.invoke({
-        FunctionName: pName, // the lambda function we are going to invoke
-        Payload: JSON.stringify(pInput, null, 2)
-    }, function(err, data) {
-        if (err) {
-            context.fail(err);
-        } else {
-            return data.Payload;
+exports.handler = function(event, context, callback) {
+    const main = async () => {
+        output = await (lambda.invoke({
+            FunctionName: lambdachain[0], 
+            Payload: JSON.stringify(event),
+        }).promise());
+    
+        for (var x=1; x<lambdachain.length; x++){
+            output = await (lambda.invoke({
+                FunctionName: lambdachain[x], 
+                Payload: output.Payload,
+            }).promise());
         }
-    })
-}
-
-exports.handler = function(event, context) {
-    output = invokeLambda(lambdachain[0], event);
-    for (var x=1; x<lambdachain.length; x++){
-        output = invokeLambda(lambdachain[x], output);
-    }
+        console.log(output);
+    };
+    main().catch(error => console.error(error));
     callback(null, output);
 };
