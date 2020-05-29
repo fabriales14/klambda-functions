@@ -26,7 +26,7 @@ exports.handler = (event, context, callback) => {
         } else {
             var response = {
                 statusCode: 200,
-                body: JSON.stringify("Customer added succesfully")
+                body: JSON.stringify("Item added succesfully")
             };
             callback(null, response);
         }
