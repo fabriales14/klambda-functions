@@ -6,6 +6,7 @@ var lambdachain = process.env.listLambdas.split(' ');
 var output;
 
 exports.handler = function(event, context, callback) {
+    console.log(event);
     const main = async () => {
         output = await (lambda.invoke({
             FunctionName: lambdachain[0], 
