@@ -1,6 +1,6 @@
 var AWS = require('aws-sdk');
 var lambda = new AWS.Lambda({
-    region: 'us-west-1'
+    region: process.env.region
 });
 var lambdachain = process.env.listLambdas.split(' ');
 var output;
