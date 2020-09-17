@@ -1,14 +1,19 @@
-exports.handler = (event, context, callback) => {    
-    // Assign the support case and update the status message
-    let number = event.pathParameters.number;    
-    var result = fib(number);
-    callback(null, result);        
-};
-
 function fib(n) {
     if(n > 1){
         return fib(n-1) + fib(n-2)
     } else {
         return n;
     }
+}
+
+exports.handler =  async function(event, context) {
+    let number = event.pathParameters.number; 
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify({
+          result: fib(number),
+          input: event,
+        }),
+    };
+    return response
 }
