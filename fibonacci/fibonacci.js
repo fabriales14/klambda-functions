@@ -7,12 +7,11 @@ function fib(n) {
 }
 
 exports.handler =  async function(event, context) {
-    let number = event.pathParameters.number; 
+    let number = parseInt(event.pathParameters.number); 
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-          result: number,
-          input: event.input
+          result: fib(number)
         }),
     };
     return response
