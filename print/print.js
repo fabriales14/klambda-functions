@@ -1,7 +1,7 @@
 exports.handler =  async function(event, context) {
     const response = {
         statusCode: 200,
-        message: event
+        message: "Hey!"
     };
     return response
 }
