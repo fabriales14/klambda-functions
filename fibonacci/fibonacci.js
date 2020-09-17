@@ -11,7 +11,8 @@ exports.handler =  async function(event, context) {
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-          result: number
+          result: number,
+          input: event.input
         }),
     };
     return response
