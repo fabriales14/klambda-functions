@@ -11,8 +11,7 @@ exports.handler =  async function(event, context) {
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-          result: fib(number),
-          input: event,
+          result: number
         }),
     };
     return response
